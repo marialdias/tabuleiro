@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Tabuleiro de Xadrez</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #222;
+    }
+
+    .tabuleiro {
+      display: grid;
+      grid-template-columns: repeat(8, 60px);
+      grid-template-rows: repeat(8, 60px);
+      border: 4px solid #000;
+    }
+
+    .casa {
+      width: 60px;
+      height: 60px;
+    }
+
+    .preta {
+      background-color: black;
+    }
+
+    .roxa {
+      background-color: purple;
+    }
+  </style>
+</head>
+<body>
+  <div class="tabuleiro">
+    <script>
+      const tabuleiro = document.querySelector('.tabuleiro');
+      for (let linha = 0; linha < 8; linha++) {
+        for (let coluna = 0; coluna < 8; coluna++) {
+          const casa = document.createElement('div');
+          casa.classList.add('casa');
+          
+          if ((linha + coluna) % 2 === 0) {
+            casa.classList.add('preta');
+          } else {
+            casa.classList.add('roxa');
+          }
+          tabuleiro.appendChild(casa);
+        }
+      }
+    </script>
+  </div>
+</body>
+</html>
