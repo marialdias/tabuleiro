@@ -2,9 +2,10 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Tabuleiro de Xadrez</title>
+  <title>Tabuleiro de Xadrez Interativo</title>
   <style>
     body {
+      margin: 0;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -16,41 +17,81 @@
       display: grid;
       grid-template-columns: repeat(8, 60px);
       grid-template-rows: repeat(8, 60px);
-      border: 4px solid #000;
+      border: 4px solid #1f041d;
     }
 
     .casa {
       width: 60px;
       height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 36px;
+      cursor: pointer;
     }
 
     .preta {
-      background-color: black;
+      background-color: #875696;
     }
 
-    .roxa {
-      background-color: purple;
+    .branca {
+      background-color: #eeeed2;
+    }
+
+    .peca {
+      pointer-events: auto;
     }
   </style>
 </head>
 <body>
-  <div class="tabuleiro">
-    <script>
-      const tabuleiro = document.querySelector('.tabuleiro');
-      for (let linha = 0; linha < 8; linha++) {
-        for (let coluna = 0; coluna < 8; coluna++) {
-          const casa = document.createElement('div');
-          casa.classList.add('casa');
-          
-          if ((linha + coluna) % 2 === 0) {
-            casa.classList.add('preta');
-          } else {
-            casa.classList.add('roxa');
+  <div class="tabuleiro" id="tabuleiro"></div>
+
+  <script>
+    const tabuleiro = document.getElementById('tabuleiro');
+    const casas = [];
+    let pecaSelecionada = null;
+
+    for (let linha = 0; linha < 8; linha++) {
+      for (let coluna = 0; coluna < 8; coluna++) {
+        const casa = document.createElement('div');
+        casa.classList.add('casa');
+        casa.classList.add((linha + coluna) % 2 === 0 ? 'branca' : 'preta');
+        tabuleiro.appendChild(casa);
+        casas.push(casa);
+
+        casa.addEventListener('click', () => {
+          if (pecaSelecionada) {
+            casa.appendChild(pecaSelecionada);
+            pecaSelecionada = null;
           }
-          tabuleiro.appendChild(casa);
-        }
+        });
       }
-    </script>
-  </div>
+    }
+
+    const pecasIniciais = [
+      "♜", "♞", "♝", "♛", "♚", "♝", "♞", "♜",
+      "♟", "♟", "♟", "♟", "♟", "♟", "♟", "♟",
+      "", "", "", "", "", "", "", "",
+      "", "", "", "", "", "", "", "",
+      "", "", "", "", "", "", "", "",
+      "", "", "", "", "", "", "", "",
+      "♙", "♙", "♙", "♙", "♙", "♙", "♙", "♙",
+      "♖", "♘", "♗", "♕", "♔", "♗", "♘", "♖"
+    ];
+
+    pecasIniciais.forEach((simbolo, i) => {
+      if (simbolo !== "") {
+        const peca = document.createElement('div');
+        peca.textContent = simbolo;
+        peca.classList.add('peca');
+        peca.style.pointerEvents = "auto";
+        peca.addEventListener('click', e => {
+          e.stopPropagation();
+          pecaSelecionada = peca;
+        });
+        casas[i].appendChild(peca);
+      }
+    });
+  </script>
 </body>
 </html>
